@@ -1,0 +1,16 @@
+result/*.json
+result/*.csv
+result/*.xlsx
+*.pyc
+*.json
+*.png
+*.log
+.env
+.idx/
+.venv/
+.vscode/launch.json
+.vscode/settings.env
+.vscode/
+__pycache__/
+__pycache__/*.pyc
+settings.json
