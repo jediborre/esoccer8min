@@ -44,7 +44,7 @@ def predict_game(new_game, model, le, scaler):
 
 
 def main():
-    # id	fecha	time	score	home_score	away_score	home	home_player	away	away_player
+    # id	fecha	time	score	home_score	away_score	home	home_player	away	away_player # noqa
     data = pd.read_excel('bd.xlsx')
     le = LabelEncoder()
     scaler = StandardScaler()
@@ -56,7 +56,7 @@ def main():
         ), axis=1
     )
 
-    model_data['fecha'] = pd.to_datetime(model_data['fecha'], format='%m/%d %H:%M')
+    model_data['fecha'] = pd.to_datetime(model_data['fecha'], format='%m/%d %H:%M') # noqa
 
     model_data['month'] = model_data['fecha'].dt.month
     model_data['day'] = model_data['fecha'].dt.day
