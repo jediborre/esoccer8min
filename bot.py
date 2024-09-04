@@ -3,7 +3,7 @@ import sys
 import telebot
 import logging
 from dotenv import load_dotenv
-from model import get_models, predict_game
+from model import get_models, predict_game, is_player
 from requests.exceptions import ConnectionError, ReadTimeout
 
 load_dotenv()
@@ -29,35 +29,43 @@ def handle_all_messages(message):
         home, away = msj.split(' v ')
         home = home.strip()
         away = away.strip()
-        print(f'{home} v {away}')
-        results = predict_game(
-            models, le, scaler, {
-                'home_player': home,
-                'away_player': away,
-            })
-        model_results = {
-            'H': 0,
-            'D': 0,
-            'A': 0
-        }
-        for result in results:
-            model_results[result] += 1
+        if is_player(home) and is_player(away):
+            print(f'{home} v {away}')
+            results = predict_game(
+                models, le, scaler, {
+                    'home_player': home,
+                    'away_player': away,
+                })
+            model_results = {
+                'H': 0,
+                'D': 0,
+                'A': 0
+            }
+            for result in results:
+                model_results[result] += 1
 
-        model_results['PH'] = (model_results['H']*100/8)
-        model_results['PA'] = (model_results['A']*100/8)
-        model_results['PD'] = (model_results['D']*100/8)
+            model_results['PH'] = (model_results['H']*100/8)
+            model_results['PA'] = (model_results['A']*100/8)
+            model_results['PD'] = (model_results['D']*100/8)
 
-        result = '-'
-        if model_results['PH'] >= 75:
-            result = 'H'
-        elif model_results['PA'] >= 75:
-            result = 'A'
-        elif model_results['PD'] >= 75:
-            result = 'D'
-        txt_result = f'{home} v {away} -> Sin apuesta'
-        if result != '-':
-            txt_result = f'{home} v {away} -> {result} | {model_results["PH"]}% {model_results["PD"]}% {model_results["PA"]}%' # noqa
-        bot.reply_to(message, txt_result)
+            result = '-'
+            if model_results['PH'] >= 75:
+                result = 'H'
+            elif model_results['PA'] >= 75:
+                result = 'A'
+            elif model_results['PD'] >= 75:
+                result = 'D'
+            txt_result = f'{home} v {away} -> Sin apuesta'
+            if result != '-':
+                txt_result = f'{home} v {away} -> {result} | {model_results["PH"]}% {model_results["PD"]}% {model_results["PA"]}%' # noqa
+            bot.reply_to(message, txt_result)
+        else:
+            jugador = []
+            if not is_player(home):
+                jugador.append(home)
+            if not is_player(away):
+                jugador.append(away)
+            bot.reply_to(message, f'Jugador: {jugador} no juega.')
     else:
         bot.reply_to(message, msj)
 
