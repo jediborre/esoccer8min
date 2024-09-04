@@ -134,12 +134,18 @@ def main():
         ['palkan', 'Sava', '1-3'],
     ]
     juegos = [
-        ['Koftovsky', 'Kravatskhelia', ''],
-        ['dm1trena', 'Wboy', ''],
-        ['lion', 'Arcos', ''],
-        ['Jekunam', 'd1pseN', ''],
-        ['Bomb1to', 'Jekunam', ''],
-        ['d1pseN', 'dm1trena', '']
+        # ['Koftovsky', 'Kravatskhelia', '2-0'],
+        # ['dm1trena', 'Wboy', '1-2'],
+        # ['lion', 'Arcos', '5-1'],
+        # ['Wboy', 'd1pseN', '2-2'],  # A NO
+        # ['dm1trena', 'Bomb1to', '4-1'],  # -
+        # ['Arcos', 'Senior', '0-1'],  # H NO
+        # ['Kravatskhelia', 'lion', '0-3'],  # -
+        ['Koftovsky', 'lion', '2-3'],  # -
+        ['Bomb1to', 'Wboy', '2-0'],  # H
+        ['Jekunam', 'dm1trena', '1-1'],  # H
+        ['Kravatskhelia', 'Senior', '4-2'],  # -
+        ['Senior', 'Koftovsky', '5-1'],  # - 
     ]
     wins_1, wins_2, wins_3, wins_4, wins_5, wins_6, wins_7, wins_8 = 0, 0, 0, 0, 0, 0, 0, 0 # noqa
     loss_1, loss_2, loss_3, loss_4, loss_5, loss_6, loss_7, loss_8 = 0, 0, 0, 0, 0, 0, 0, 0 # noqa
