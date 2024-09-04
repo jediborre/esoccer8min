@@ -18,24 +18,22 @@ def get_game(new_game, le):
     home_n = le.transform(df['home_player'])
     away_n = le.transform(df['away_player'])
 
-    df['home_player_n'] = home_n
-    df['away_player_n'] = away_n
+    df['home_n'] = home_n
+    df['away_n'] = away_n
 
     return df
 
 
-def predict_game(models, new_game):
+def predict_game(models, le, scaler, new_game):
     resultados = {
         0: 'H',
         2: 'D',
         1: 'A'
     }
-    le = LabelEncoder()
-    scaler = StandardScaler()
 
     game = get_game(new_game, le)
 
-    x = game[['home_player_n', 'away_player_n']]
+    x = game[['home_n', 'away_n']]
     x_scaled = scaler.transform(x)
 
     results = []
@@ -96,7 +94,7 @@ def get_models():
     model_8 = SVC(kernel='rbf', random_state=42)
     model_8.fit(x_train, y_train)
 
-    return [
+    return [[
         model,
         model_2,
         model_3,
@@ -105,4 +103,4 @@ def get_models():
         model_6,
         model_7,
         model_8
-    ]
+    ], le, scaler]
