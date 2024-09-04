@@ -1,12 +1,14 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.svm import SVC
 from xgboost import XGBClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
 
 # from sklearn.metrics import accuracy_score, classification_report
 
@@ -99,32 +101,60 @@ def main():
     model_6 = XGBClassifier(n_estimators=100, random_state=42)
     model_6.fit(X_train, y_train)
 
+    model_7 = GradientBoostingClassifier(n_estimators=100, random_state=42)
+    model_7.fit(X_train, y_train)
+
+    model_8 = SVC(kernel='rbf', random_state=42)
+    model_8.fit(X_train, y_train)
+
     juegos = [
-        ['Flamingo', 'Shone', 'L', '1-5', 'H'],
-        ['Sava', 'Calvin', 'L', '2-2', 'A'],
-        ['Petruchio', 'jAke', 'L', '0-1', 'H'],
-        ['Glumac', 'Bolec', 'W', '2-3', 'A'],
-        ['jAke', 'palkan', 'L', '0-1', 'H'],
-        ['Calvin', 'Petruchio', 'L', '1-2', 'H'],
-        ['hotShot', 'Boulevard', 'L', '2-1', 'A'],
-        ['Inquisitor', 'Kray', 'L', '2-2', 'H'],
-        ['Kray', 'Kodak', 'L', '3-5', 'H'],
-        ['Petruchio', 'Sava', 'W', '3-2', 'H'],
-        ['palkan', 'Calvin', 'L', '4-3', 'A'],
-        ['Boulevard', 'Inquisitor', 'W', '2-1', 'H'],
-        ['Kodak', 'Boulevard', 'L', '2-2', 'A'],
-        ['Calvin', 'jAke', 'L', '0-2', 'H'],
-        ['Sava', 'palkan', 'L', '0-1', 'H'],
+        ['Flamingo', 'Shone', '1-5'],
+        ['Sava', 'Calvin', '2-2'],
+        ['Petruchio', 'jAke', '0-1'],
+        ['Glumac', 'Bolec', '2-3'],
+        ['jAke', 'palkan', '0-1'],
+        ['Calvin', 'Petruchio', '1-2'],
+        ['hotShot', 'Boulevard', '2-1'],
+        ['Inquisitor', 'Kray', '2-2'],
+        ['Kray', 'Kodak', '3-5'],
+        ['Petruchio', 'Sava', '3-2'],
+        ['palkan', 'Calvin', '4-3'],
+        ['Boulevard', 'Inquisitor', '2-1'],
+        ['Kodak', 'Boulevard', '2-2'],
+        ['Calvin', 'jAke', '0-2'],
+        ['Sava', 'palkan', '0-1'],
     ]
-    wins_1, wins_2, wins_3, wins_4, wins_5, wins_6 = 0, 0, 0, 0, 0, 0
-    loss_1, loss_2, loss_3, loss_4, loss_5, loss_6 = 0, 0, 0, 0, 0, 0
+    juegos = [
+        ['Calvin', 'Petruchio', '2-2'],
+        ['hotShot', 'Boulevard', '1-1'],
+        ['Inquisitor', 'Kray', '2-2'],
+        ['Kray', 'Boulevard', '2-4'],
+        ['hotShot', 'Inquisitor', '1-2'],
+        ['Boulevard', 'Kodak', '1-1'],
+        ['palkan', 'Sava', '1-3'],
+    ]
+    juegos = [
+        ['Koftovsky', 'Kravatskhelia', ''],
+        ['dm1trena', 'Wboy', ''],
+        ['lion', 'Arcos', ''],
+        ['Jekunam', 'd1pseN', ''],
+        ['Bomb1to', 'Jekunam', ''],
+        ['d1pseN', 'dm1trena', '']
+    ]
+    wins_1, wins_2, wins_3, wins_4, wins_5, wins_6, wins_7, wins_8 = 0, 0, 0, 0, 0, 0, 0, 0 # noqa
+    loss_1, loss_2, loss_3, loss_4, loss_5, loss_6, loss_7, loss_8 = 0, 0, 0, 0, 0, 0, 0, 0 # noqa
+
     for juego in juegos:
         tmp = juego
         h = tmp[0]
         a = tmp[1]
-        r = tmp[2]
-        ft = tmp[3]
+        ft = tmp[2]
         s_h, s_a = '', ''
+        model_results = {
+            'H': 0,
+            'D': 0,
+            'A': 0
+        }
         if ft:
             s_h, s_a = ft.split('-') if '-' in ft else [0, 0]
             s_h = int(s_h)
@@ -136,8 +166,7 @@ def main():
             'month': 9,
             'day': 3,
             'hour': 15,
-            'minute': 30,
-            'res': r
+            'minute': 30
         }, model, le, scaler)
 
         result_2, h_n_2, a_n_2 = predict_game({
@@ -146,8 +175,7 @@ def main():
             'month': 9,
             'day': 3,
             'hour': 15,
-            'minute': 30,
-            'res': r
+            'minute': 30
         }, model_2, le, scaler)
 
         result_3, h_n_3, a_n_3 = predict_game({
@@ -156,8 +184,7 @@ def main():
             'month': 9,
             'day': 3,
             'hour': 15,
-            'minute': 30,
-            'res': r
+            'minute': 30
         }, model_3, le, scaler)
 
         result_4, h_n_4, a_n_4 = predict_game({
@@ -166,8 +193,7 @@ def main():
             'month': 9,
             'day': 3,
             'hour': 15,
-            'minute': 30,
-            'res': r
+            'minute': 30
         }, model_4, le, scaler)
 
         result_5, h_n_5, a_n_5 = predict_game({
@@ -176,8 +202,7 @@ def main():
             'month': 9,
             'day': 3,
             'hour': 15,
-            'minute': 30,
-            'res': r
+            'minute': 30
         }, model_5, le, scaler)
 
         result_6, h_n_6, a_n_6 = predict_game({
@@ -186,69 +211,126 @@ def main():
             'month': 9,
             'day': 3,
             'hour': 15,
-            'minute': 30,
-            'res': r
+            'minute': 30
         }, model_6, le, scaler)
 
-        if s_h:
-            if s_h == s_a:
-                winner = 'D'
-            elif s_h > s_a:
-                winner = 'H'
-            else:
-                winner = 'A'
+        result_7, h_n_7, a_n_7 = predict_game({
+            'home_player': h,
+            'away_player': a,
+            'month': 9,
+            'day': 3,
+            'hour': 15,
+            'minute': 30
+        }, model_7, le, scaler)
 
-            if winner == result:
-                win_1 = 'SI'
-                wins_1 += 1
-            else:
-                win_1 = 'NO'
-                loss_1 += 1
+        result_8, h_n_8, a_n_8 = predict_game({
+            'home_player': h,
+            'away_player': a,
+            'month': 9,
+            'day': 3,
+            'hour': 15,
+            'minute': 30
+        }, model_8, le, scaler)
 
-            if winner == result_2:
-                win_2 = 'SI'
-                wins_2 += 1
-            else:
-                win_2 = 'NO'
-                loss_2 += 1
+        model_results[result] += 1
+        model_results[result_2] += 1
+        model_results[result_3] += 1
+        model_results[result_4] += 1
+        model_results[result_5] += 1
+        model_results[result_6] += 1
+        model_results[result_7] += 1
+        model_results[result_8] += 1
+        model_results['PH'] = (model_results['H']*100/8)
+        model_results['PA'] = (model_results['A']*100/8)
+        model_results['PD'] = (model_results['D']*100/8)
 
-            if winner == result_3:
-                win_3 = 'SI'
-                wins_3 += 1
-            else:
-                win_3 = 'NO'
-                loss_3 += 1
+        if model_results['PH'] >= 75:
+            result_9 = 'H'
+        elif model_results['PA'] >= 75:
+            result_9 = 'A'
+        elif model_results['PD'] >= 75:
+            result_9 = 'D'
+        else:
+            result_9 = '-'
 
-            if winner == result_4:
-                win_4 = 'SI'
-                wins_4 += 1
-            else:
-                win_4 = 'NO'
-                loss_4 += 1
+        if result_9 != '-':
+            if s_h:
+                if s_h == s_a:
+                    winner = 'D'
+                elif s_h > s_a:
+                    winner = 'H'
+                else:
+                    winner = 'A'
 
-            if winner == result_5:
-                win_5 = 'SI'
-                wins_5 += 1
-            else:
-                win_5 = 'NO'
-                loss_5 += 1
+                if winner == result:
+                    win_1 = 'SI'
+                    wins_1 += 1
+                else:
+                    win_1 = 'NO'
+                    loss_1 += 1
 
-            if winner == result_6:
-                win_6 = 'SI'
-                wins_6 += 1
-            else:
-                win_6 = 'NO'
-                loss_6 += 1
+                if winner == result_2:
+                    win_2 = 'SI'
+                    wins_2 += 1
+                else:
+                    win_2 = 'NO'
+                    loss_2 += 1
 
-            print(f'{winner} {ft} | {result} {win_1} {result_2} {win_2} {result_3} {win_3} {result_4} {win_4} {result_5} {win_5} {result_6} {win_6} | {h} v {a}') # noqa
+                if winner == result_3:
+                    win_3 = 'SI'
+                    wins_3 += 1
+                else:
+                    win_3 = 'NO'
+                    loss_3 += 1
+
+                if winner == result_4:
+                    win_4 = 'SI'
+                    wins_4 += 1
+                else:
+                    win_4 = 'NO'
+                    loss_4 += 1
+
+                if winner == result_5:
+                    win_5 = 'SI'
+                    wins_5 += 1
+                else:
+                    win_5 = 'NO'
+                    loss_5 += 1
+
+                if winner == result_6:
+                    win_6 = 'SI'
+                    wins_6 += 1
+                else:
+                    win_6 = 'NO'
+                    loss_6 += 1
+
+                if winner == result_7:
+                    win_7 = 'SI'
+                    wins_7 += 1
+                else:
+                    win_7 = 'NO'
+                    loss_7 += 1
+
+                if winner == result_8:
+                    win_8 = 'SI'
+                    wins_8 += 1
+                else:
+                    win_8 = 'NO'
+                    loss_8 += 1
+
+                print(f'{winner} {ft} | {result_6} {win_6} {result} {win_1} {result_2} {win_2} {result_3} {win_3} {result_4} {win_4} {result_5} {win_5} {result_7} {win_7} {result_8} {win_8} | {model_results["PH"]}% {model_results["PD"]}% {model_results["PA"]}% | {result_9}  | {h} v {a}') # noqa
+            else:
+                print(f'{ft} | {result_6} {result} {result_2} {result_3} {result_4} {result_5} {result_7} {result_8} | {model_results["PH"]}% {model_results["PD"]}% {model_results["PA"]}% | {result_9} | {h} v {a}') # noqa
 
     print('')
+    print(f'XGBoost Classifier Wins: {wins_6}, Losses: {loss_6}')
     print(f'Logistic Regresion Wins: {wins_1}, Losses: {loss_1}')
     print(f'RandomForest Classifier Wins: {wins_2}, Losses: {loss_2}')
     print(f'Naive Bayes Wins: {wins_3}, Losses: {loss_3}')
     print(f'Simple multi-layer perceptron (MLP) neural network Wins: {wins_4}, Losses: {loss_4}')
     print(f'K-Nearest Neighbors (KNN) Wins: {wins_5}, Losses: {loss_5}')
-    print(f'XGBoost Classifier Wins: {wins_6}, Losses: {loss_6}')
+    print(f'Gradient Boosting Classifier Wins: {wins_7}, Losses: {loss_7}')
+    print(f'Support Vector Machine (SVM) Wins: {wins_8}, Losses: {loss_8}')
 
 
 if __name__ == '__main__':
