@@ -48,16 +48,14 @@ def handle_all_messages(message):
             model_results['PA'] = (model_results['A']*100/8)
             model_results['PD'] = (model_results['D']*100/8)
 
-            result = '-'
+            result = 'Sin apuesta'
             if model_results['PH'] >= 75:
                 result = 'H'
             elif model_results['PA'] >= 75:
                 result = 'A'
             elif model_results['PD'] >= 75:
                 result = 'D'
-            txt_result = f'{home} v {away} -> Sin apuesta'
-            if result != '-':
-                txt_result = f'{home} v {away} -> {result} | {model_results["PH"]}% {model_results["PD"]}% {model_results["PA"]}%' # noqa
+            txt_result = f'{home} v {away} -> {result} | {model_results["PH"]}% {model_results["PD"]}% {model_results["PA"]}%' # noqa
             bot.reply_to(message, txt_result)
         else:
             jugador = []
