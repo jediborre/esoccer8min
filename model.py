@@ -9,47 +9,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-
-players = [
-    'Petruchio',
-    'Bomb1to',
-    'Kodak',
-    'palkan',
-    'Jekunam',
-    'lion',
-    'dm1trena',
-    'Arcos',
-    'Kray',
-    'Inquisitor',
-    'Koftovsky',
-    'Boulevard',
-    'Calvin',
-    'Flamingo',
-    'jAke',
-    'Senior',
-    'Sava',
-    'Shone',
-    'lowheels',
-    'Bolec',
-    'd1pseN',
-    'Kravatskhelia',
-    'nikkitta',
-    'WBoy',
-    'hotShot',
-    'Izzy',
-    'cl1vlind',
-    'Glumac',
-    'Galikooo',
-    'Fratello',
-    'Hotshot',
-    'Wboy',
-    'Menez',
-    'SuperMario'
-]
+from players import players
 
 
 def is_player(player):
-    global players
     return player in players
 
 
@@ -69,8 +32,8 @@ def get_game(new_game, le):
 def predict_game(models, le, scaler, new_game):
     resultados = {
         0: 'H',
-        2: 'D',
-        1: 'A'
+        1: 'D',
+        2: 'A'
     }
 
     game = get_game(new_game, le)
@@ -145,4 +108,4 @@ def get_models():
         model_6,
         model_7,
         model_8
-    ], le, scaler]
+    ], model_data, le, scaler]
