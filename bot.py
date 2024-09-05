@@ -60,8 +60,8 @@ def handle_all_messages(message):
             elif model_results['PD'] >= 75:
                 result = 'D'
 
-            home_stats = player_stats[home]
-            away_stats = player_stats[away]
+            home_stats = player_stats[home] if home in player_stats else {'No': '', 'Ganados': '', 'Empate': '', 'Perdidos': ''} # noqa
+            away_stats = player_stats[away] if away in player_stats else {'No': '', 'Ganados': '', 'Empate': '', 'Perdidos': ''} # noqa
             home_no = home_stats['No']
             home_wins = home_stats['Ganados']
             home_draws = home_stats['Empate']
@@ -73,9 +73,11 @@ def handle_all_messages(message):
 
             cara_cara = model_data.query(f"home_player == '{home}' and away_player == '{away}'") # noqa
             result_mapping = {0: 'H', 1: 'D', 2: 'A'}
-            cara_cara.loc[:, 'result'] = cara_cara['result'].map(result_mapping) # noqa
-            resultados_cara = cara_cara['result'].tolist()
+            resultados_cara = cara_cara['result'].map(result_mapping)
+            # cara_cara['result'] = cara_cara['result'].map(result_mapping) # noqa
+            # resultados_cara = cara_cara['result_h'].tolist()
             count = Counter(resultados_cara)
+            # print(resultados_cara)
 
             # print(cara_cara[['home_player', 'away_player', 'home_score', 'away_score', 'result']]) # noqa
 

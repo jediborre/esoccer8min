@@ -34,7 +34,10 @@ players = [
     'Hotshot',
     'Wboy',
     'Menez',
-    'SuperMario'
+    'SuperMario',
+    'BlackStar98',
+    'MeLToSik',
+    'FEARGGWP'
 ]
 
 
