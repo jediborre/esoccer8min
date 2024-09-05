@@ -926,5 +926,5 @@ return result;</Value>
 *://*.googleadservices.com/*&#xD;
 *://*.scorecardresearch.com/*</BlockList>
   <DynamicInject />
-  <ProjectCode>8a05d6a6710391604049dd665e620bea</ProjectCode>
+  <ProjectCode>150f1daa60dc96d4c86219bc52b88cc1</ProjectCode>
 </SerializableScraperProject>
